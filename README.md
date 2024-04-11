@@ -1,6 +1,5 @@
 # Wallpaperify - React Native Wallpaper App
 
-![Wallpaperify Logo](https://example.com/wallpaperify-logo.png)
 
 Wallpaperify is a sleek and feature-rich wallpaper application built using React Native. It leverages the Pixabay API to provide users with a vast collection of stunning wallpapers. With advanced search and filtering options, users can easily find the perfect wallpaper to customize their device's screen. The app boasts a modern masonry layout, ensuring an immersive browsing experience for users.
 
@@ -24,18 +23,31 @@ To get started with Wallpaperify, follow these steps:
 
 
 
-2. ## Install dependencies
+## Install dependencies
 
 To install dependencies for Wallpaperify, navigate to the project directory and run the following command:
 
 ```bash
 cd wallpaper-app
 npm install
+```
 
-3. ## Run the application
+## Run the application
 
-To run Wallpaperify, execute the following command in the project directory:
+To run Wallpaper-app, execute the following command in the project directory:
 
 ```bash
 npm start
+```
+
+## Acknowledgements
+
+The development of Wallpaperify has been supported by the following:
+
+- Wallpaperify utilizes the Pixabay API to provide users with stunning wallpapers.
+- The masonry layout is inspired by modern design principles to enhance user experience.
+
+
+
+
 
