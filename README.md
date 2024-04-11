@@ -20,21 +20,22 @@ To get started with Wallpaperify, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/wallpaperify.git
+   git clone https://github.com/jonyBhatt/wallpaper-app.git
 
 
-Getting Started
-To get started with Wallpaperify, follow these steps:
 
-git clone https://github.com/jonyBhatt/wallpaper-app.git
+2. ## Install dependencies
 
-Install dependencies:
+To install dependencies for Wallpaperify, navigate to the project directory and run the following command:
+
+```bash
 cd wallpaper-app
 npm install
 
-Run the application:
+3. ## Run the application
+
+To run Wallpaperify, execute the following command in the project directory:
+
+```bash
 npm start
 
-Acknowledgements:
-Wallpaperify utilizes the Pixabay API to provide users with stunning wallpapers.
-The masonry layout is inspired by modern design principles to enhance user experience.
