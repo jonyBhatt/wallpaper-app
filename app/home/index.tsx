@@ -16,9 +16,11 @@ import {
 import { FontAwesome6 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import Category from "@/components/category";
 const Homepage = () => {
   const [search, setSearch] = useState<string | undefined>("");
+  const searchInputRef = useRef(null);
   let [fontsLoaded, fontError] = useFonts({
     Nunito_700Bold,
     Nunito_500Medium,
@@ -44,6 +46,7 @@ const Homepage = () => {
               style={styles.input}
               value={search}
               onChangeText={(value) => setSearch(value)}
+              ref={searchInputRef}
             />
           </View>
           {search && (
@@ -51,6 +54,10 @@ const Homepage = () => {
               <AntDesign name="closecircleo" size={20} color="lightgray" />
             </Pressable>
           )}
+        </View>
+        {/** Category */}
+        <View style={styles.categoryContainer}>
+          <Category />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -92,6 +99,9 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: hp(2),
+  },
+  categoryContainer: {
+    marginHorizontal: wp(4),
   },
 });
 
