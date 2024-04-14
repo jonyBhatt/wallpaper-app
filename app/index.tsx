@@ -43,13 +43,13 @@ export default function Welcome() {
             entering={FadeInDown.delay(400).springify()}
             style={styles.title}
           >
-            Splash
+            Wallify
           </Animated.Text>
           <Animated.Text
             entering={FadeInDown.delay(400).springify()}
             style={styles.punchline}
           >
-            Splash in every wallpaper
+            Wallify in every wallpaper
           </Animated.Text>
           <Animated.View entering={FadeInDown.delay(600)}>
             <Pressable style={styles.startButton} onPress={()=>router.push("/home/")}>

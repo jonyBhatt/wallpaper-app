@@ -20,6 +20,10 @@ import { useRef, useState } from "react";
 import Category from "@/components/category";
 const Homepage = () => {
   const [search, setSearch] = useState<string | undefined>("");
+  const [activeCategory, setActiveCategory] = useState<
+    string | null | undefined
+  >("");
+
   const searchInputRef = useRef(null);
   let [fontsLoaded, fontError] = useFonts({
     Nunito_700Bold,
@@ -29,10 +33,17 @@ const Homepage = () => {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
+  const handleActiveCat = (cat: string) => {
+    setActiveCategory(cat);
+  };
+
+  // console.log("activate cat: ", activeCategory);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleIcon}>
-        <Text style={styles.title}>Splash</Text>
+        <Text style={styles.title}>Wallify</Text>
         <Pressable>
           <FontAwesome6 name="bars-staggered" size={24} color="#D13670" />
         </Pressable>
@@ -57,7 +68,10 @@ const Homepage = () => {
         </View>
         {/** Category */}
         <View style={styles.categoryContainer}>
-          <Category />
+          <Category
+            activeCat={activeCategory}
+            handleActiveCat={handleActiveCat}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
