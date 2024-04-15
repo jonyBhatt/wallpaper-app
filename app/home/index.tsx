@@ -16,15 +16,79 @@ import {
 import { FontAwesome6 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Category from "@/components/category";
+import { callApi } from "@/api";
+import ImageGrid from "@/components/image-grid";
+import { debounce } from "lodash";
+export interface Params {
+  q?: string;
+  page?: number;
+  category?: string;
+  order?: "popular" | "latest";
+}
+
 const Homepage = () => {
   const [search, setSearch] = useState<string | undefined>("");
   const [activeCategory, setActiveCategory] = useState<
     string | null | undefined
   >("");
+  const [images, setImages] = useState([]);
+
+  const fetchImages = async ({
+    params,
+    append = false,
+  }: {
+    params?: Params;
+    append?: boolean;
+  } = {}) => {
+    // console.log(params);
+
+    if (params !== undefined) {
+      let res = await callApi(params);
+      if (append) {
+        //@ts-ignore
+        setImages([...images, ...res.data.hits]);
+      }
+      //@ts-ignore
+      else setImages([...res.data.hits]);
+    } else {
+      let res = await callApi({}); // Call the API without parameters if params is not provided
+      // console.log(res.data.hits);
+      if (append) {
+        //@ts-ignore
+        setImages([ ...res.data.hits]);
+      }
+      //@ts-ignore
+      else setImages([...res.data.hits]);
+    }
+    // console.log("Response: ", data);
+    //@ts-ignore
+  };
+
+  useEffect(() => {
+    fetchImages(); // Call fetchImages without any arguments
+  }, []);
+
+  // console.log(images);
+  const handleSearchText = (text: string) => {
+    // console.log(text);
+    let page = 1;
+    setSearch(text);
+    if (text.length >= 2) {
+      setImages([]);
+      fetchImages({ params: { q: text, page } });
+    }
+  };
+  const handleTextDebounce = useCallback(debounce(handleSearchText, 400), []);
 
   const searchInputRef = useRef(null);
+  const handleClearSearch = (text: string) => {
+    setSearch("");
+    //@ts-ignore
+    searchInputRef?.current.clear();
+    fetchImages({ params: { q: text, page:1 } });
+  };
   let [fontsLoaded, fontError] = useFonts({
     Nunito_700Bold,
     Nunito_500Medium,
@@ -37,8 +101,6 @@ const Homepage = () => {
   const handleActiveCat = (cat: string) => {
     setActiveCategory(cat);
   };
-
-  // console.log("activate cat: ", activeCategory);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,12 +118,12 @@ const Homepage = () => {
               placeholder="Search..."
               style={styles.input}
               value={search}
-              onChangeText={(value) => setSearch(value)}
+              onChangeText={handleTextDebounce}
               ref={searchInputRef}
             />
           </View>
           {search && (
-            <Pressable onPress={() => setSearch("")}>
+            <Pressable onPress={() => handleClearSearch("")}>
               <AntDesign name="closecircleo" size={20} color="lightgray" />
             </Pressable>
           )}
@@ -73,6 +135,8 @@ const Homepage = () => {
             handleActiveCat={handleActiveCat}
           />
         </View>
+        {/** Images */}
+        <View>{images.length > 0 && <ImageGrid images={images} />}</View>
       </ScrollView>
     </SafeAreaView>
   );

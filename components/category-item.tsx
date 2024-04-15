@@ -4,9 +4,18 @@ import { wp } from "@/helpers/common";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { CategoryProps } from "./category";
 import Animated, { FadeInRight } from "react-native-reanimated";
-const CategoryItem = ({ title, activeCat, handleActiveCat, index }: CategoryProps) => {
+const CategoryItem = ({
+  title,
+  activeCat,
+  handleActiveCat,
+  index,
+}: CategoryProps) => {
   return (
-    <Animated.View entering={FadeInRight.delay(index as number*200).duration(1000).springify()}>
+    <Animated.View
+      entering={FadeInRight.delay((index as number) * 200)
+        .duration(1000)
+        .springify()}
+    >
       <Pressable
         style={[
           styles.catButton,
@@ -18,12 +27,13 @@ const CategoryItem = ({ title, activeCat, handleActiveCat, index }: CategoryProp
           },
         ]}
         onPress={() => {
-          const newActiveCat = activeCat === title ? null : title;
-          const stringValue =
-            newActiveCat !== null && newActiveCat !== undefined
-              ? newActiveCat
-              : "";
-          handleActiveCat(stringValue);
+          if (activeCat === title) {
+            //@ts-ignore
+            handleActiveCat(null);
+          } else {
+            //@ts-ignore
+            handleActiveCat(title);
+          }
         }}
       >
         <Text
