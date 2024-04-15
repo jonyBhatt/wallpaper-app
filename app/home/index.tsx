@@ -74,6 +74,7 @@ const Homepage = () => {
     if (text.length >= 2) {
       setImages([]);
       fetchImages({ q: text, page });
+      setActiveCategory("")
     }
   };
   const handleTextDebounce = useCallback(debounce(handleSearchText, 400), []);
