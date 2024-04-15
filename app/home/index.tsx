@@ -21,6 +21,7 @@ import Category from "@/components/category";
 import { callApi } from "@/api";
 import ImageGrid from "@/components/image-grid";
 import { debounce } from "lodash";
+import FilterModal from "@/components/filter-modal";
 export interface Params {
   q?: string;
   page?: number;
@@ -74,12 +75,21 @@ const Homepage = () => {
     if (text.length >= 2) {
       setImages([]);
       fetchImages({ q: text, page });
-      setActiveCategory("")
+      setActiveCategory("");
     }
   };
-  const handleTextDebounce = useCallback(debounce(handleSearchText, 400), []);
+  const handleTextDebounce = useCallback(
+    debounce(handleSearchText, 250, { maxWait: 1000 }),
+    [handleSearchText]
+  );
+
+  const handlePresentModalPress = useCallback(() => {
+    //@ts-ignore
+    modalRef.current?.present();
+  }, []);
 
   const searchInputRef = useRef(null);
+  const modalRef = useRef(null);
   const handleClearSearch = (text: string) => {
     setSearch("");
     //@ts-ignore
@@ -113,7 +123,7 @@ const Homepage = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.titleIcon}>
         <Text style={styles.title}>Wallify</Text>
-        <Pressable>
+        <Pressable onPress={()=>handlePresentModalPress()}>
           <FontAwesome6 name="bars-staggered" size={24} color="#D13670" />
         </Pressable>
       </View>
@@ -144,6 +154,8 @@ const Homepage = () => {
         </View>
         {/** Images */}
         <View>{images.length > 0 && <ImageGrid images={images} />}</View>
+        {/** Filters */}
+        <FilterModal modalRef={modalRef} />
       </ScrollView>
     </SafeAreaView>
   );
