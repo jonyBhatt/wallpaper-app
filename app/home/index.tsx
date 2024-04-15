@@ -35,16 +35,12 @@ const Homepage = () => {
   >("");
   const [images, setImages] = useState([]);
 
-  const fetchImages = async ({
-    params,
-    append = false,
-  }: {
-    params?: Params;
-    append?: boolean;
-  } = {}) => {
+  const fetchImages = async (params?: Params, append: boolean = false) => {
     // console.log(params);
 
     if (params !== undefined) {
+      console.log(params);
+
       let res = await callApi(params);
       if (append) {
         //@ts-ignore
@@ -57,7 +53,7 @@ const Homepage = () => {
       // console.log(res.data.hits);
       if (append) {
         //@ts-ignore
-        setImages([ ...res.data.hits]);
+        setImages([...res.data.hits]);
       }
       //@ts-ignore
       else setImages([...res.data.hits]);
@@ -77,7 +73,7 @@ const Homepage = () => {
     setSearch(text);
     if (text.length >= 2) {
       setImages([]);
-      fetchImages({ params: { q: text, page } });
+      fetchImages({ q: text, page });
     }
   };
   const handleTextDebounce = useCallback(debounce(handleSearchText, 400), []);
@@ -87,7 +83,7 @@ const Homepage = () => {
     setSearch("");
     //@ts-ignore
     searchInputRef?.current.clear();
-    fetchImages({ params: { q: text, page:1 } });
+    fetchImages({ q: text, page: 1 });
   };
   let [fontsLoaded, fontError] = useFonts({
     Nunito_700Bold,
@@ -100,6 +96,16 @@ const Homepage = () => {
 
   const handleActiveCat = (cat: string) => {
     setActiveCategory(cat);
+    handleClearSearch("");
+    setImages([]);
+    let page = 1;
+    let category = "";
+    let params = {
+      page,
+      category,
+    };
+    if (cat) params.category = cat;
+    fetchImages(params, false);
   };
 
   return (

@@ -15,6 +15,7 @@ const formatUrl = (params: any) => {
   paramKeys.map((key: string) => {
     let value = key === "q" ? encodeURIComponent(params[key]) : params[key];
     url += `&${key}=${value}`;
+    // console.log(url);
   });
   // console.log("Url: ", url);
   return url;
@@ -23,12 +24,12 @@ const formatUrl = (params: any) => {
 export const callApi = async (params: Params) => {
   try {
     const res = await fetch(formatUrl(params));
-    const data = await res.json()
-    
-   return{
-    success:true,
-    data
-   }
+    const data = await res.json();
+
+    return {
+      success: true,
+      data,
+    };
   } catch (error: any) {
     console.log("error: ", error.message);
     return {
